@@ -7,6 +7,12 @@ import * as z from "zod";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldLabel,
+  FieldContent,
+  FieldError,
+} from "@/components/ui/field";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -41,99 +47,56 @@ export default function Page() {
     setIsSubmitting(false);
 
     if (result?.error) {
-      if (result.error === "CredentialsSignin") {
-        toast.error("Incorrect username or password");
-      } else {
-        toast.error(result.error);
-      }
+      toast.error("Invalid credentials");
       return;
     }
 
-    if (result?.url) {
-      router.replace("/dashboard");
-    }
+    router.replace("/dashboard");
   };
 
- return (
+  return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         
-        {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl font-bold tracking-tight mb-6">
-            Join Mystery Message
-          </h1>
-          <p className="mb-4 text-gray-600">
-            Sign up to start your anonymous adventure
+          <h1 className="text-5xl font-bold mb-6">Join Mystery Message</h1>
+          <p className="text-gray-600">
+            Login to start your anonymous adventure
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          
-          {/* Username / Email */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Email/Username
-            </label>
-            <Input
-              type="text"
-              placeholder="Email/Username"
-              className="bg-gray-50"
-              {...register("identifier")}
-            />
-            {errors.identifier && (
-              <p className="text-sm text-red-500">
-                {errors.identifier.message}
-              </p>
-            )}
-          </div>
 
-          {/* Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Password
-            </label>
-            <Input
-              type="password"
-              placeholder="Password"
-              className="bg-gray-50"
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+          <Field>
+            <FieldLabel>Email/Username</FieldLabel>
+            <FieldContent>
+              <Input placeholder="Email/Username" {...register("identifier")} />
+            </FieldContent>
+            <FieldError>{errors.identifier?.message}</FieldError>
+          </Field>
 
-          {/* Button */}
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-black text-white hover:bg-black/90"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </>
-            ) : (
-              "Login"
-            )}
+          <Field>
+            <FieldLabel>Password</FieldLabel>
+            <FieldContent>
+              <Input type="password" placeholder="Password" {...register("password")} />
+            </FieldContent>
+            <FieldError>{errors.password?.message}</FieldError>
+          </Field>
+
+          <Button className="w-full bg-black text-white" disabled={isSubmitting}>
+            {isSubmitting ? <Loader2 className="animate-spin mr-2" /> : "Login"}
           </Button>
         </form>
 
-        {/* Footer */}
-        <div className="text-center mt-4">
-          <p>
-            Already a member?{" "}
-            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
-              Sign up
-            </Link>
-          </p>
+        <div className="text-center">
+          Don’t have an account?{" "}
+          <Link href="/sign-up" className="text-blue-600">
+            Sign up
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+
+
