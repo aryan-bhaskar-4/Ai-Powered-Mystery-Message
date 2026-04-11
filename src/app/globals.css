@@ -46,6 +46,20 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-scroll: scroll 30s linear infinite;
+
+  /* 2. Define the keyframes */
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - 12px)); }
+  }
+}
+
+.carousel-container {
+  display: flex;
+  width: max-content; /* This is the "magic" line */
+  flex-wrap: nowrap;
 }
 
 :root {
