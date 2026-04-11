@@ -20,7 +20,8 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-20 px-6 bg-secondary/50">
+    // The ID matches the scrollToSection function in Hero
+    <section id="how-it-works" className="py-20 pt-24 px-6 bg-secondary/50">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-14">
           <h2 

@@ -3,38 +3,46 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeBadge = {
+// fixed variants to handle the custom delay properly
+const fadeBadge: Variants = {
   hidden: { opacity: 0, y: -20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 1.2,
-      ease: [0.16, 1, 0.3, 1] as const,
+      ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: (delay = 0) => ({
+  visible: (delay: number) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: 1.2,
       delay,
-      ease: [0.16, 1, 0.3, 1] as const,
+      ease: [0.16, 1, 0.3, 1],
     },
   }),
 };
 
 const Hero = () => {
+  // Smooth scroll function that keeps the URL clean (removes the #hash issue)
+  const scrollToHowItWorks = () => {
+    const section = document.getElementById("how-it-works");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <section className="py-24 px-6">
       <div className="max-w-2xl mx-auto text-center">
-
         <motion.div
           initial="hidden"
           animate="visible"
@@ -47,7 +55,7 @@ const Hero = () => {
         <motion.h1
           initial="hidden"
           animate="visible"
-          custom={0.15}
+          custom={0.15} // this passes to the visible function above
           variants={fadeUp}
           className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-[1.1]"
         >
@@ -80,15 +88,16 @@ const Hero = () => {
               <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Button>
           </Link>
+
           <Button
+            onClick={scrollToHowItWorks}
             size="lg"
             variant="outline"
-            className="px-8 font-medium transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
+            className="w-full sm:w-auto px-8 font-medium transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
           >
             Learn More
           </Button>
         </motion.div>
-
       </div>
     </section>
   );
