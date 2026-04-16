@@ -73,8 +73,10 @@ export default function SignUpPage() {
     setIsSubmitting(true);
     try {
       const response = await axios.post("/api/sign-up", data);
+      const code = response.data.verifyCode;
+      console.log(code);
       toast.success(response.data.message);
-      router.replace(`/verify/${username}`);
+      router.replace(`/verify/${username}?code=${code}`);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data.message ?? "Signup failed");

@@ -89,6 +89,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         success: true,
+        verifyCode: verifyCode,
         message: "User Registered Successfully Please Verify Your Email",
       },
       {
